@@ -1,0 +1,48 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/content_center?serverTimezone=UTC
+    hikari:
+      username: root
+      password: tiger
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  application:
+    name: content-center
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        cluster-name: SH
+        namespace: 0654a3a5-0b28-4b7d-94f0-53fc283544a5
+        metadata:
+          instance: c
+          hah: hehe
+server:
+  port: 8010
+
+user-center:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.youngzi.contentcenter.configuration.NacosSameClusterWeightedRule
+ribbon:
+  # 开启饥饿模式
+  eager-load:
+    enabled: true
+    clients: user-center
+
+# 注册形式的feign日志
+logging:
+  level:
+    com.youngzi.contentcenter.feignclient.UserCenterFeignClient: debug
+
+#指定微服务开启feign日志
+#feign:
+#  client:
+#    config:
+#      user-center:
+#        loggerLevel: full
+
+#全局开启feign日志
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: full
