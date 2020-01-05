@@ -14,20 +14,28 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+//@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class ShareService {
 
-    private final ShareMapper shareMapper;
+    @Autowired
+    private  ShareMapper shareMapper;
 
-    private  final  RestTemplate restTemplate;
+    @Autowired
+    private    RestTemplate restTemplate;
+    @Autowired
+    private  UserCenterFeignClient userCenterFeignClient;
 
-    private final UserCenterFeignClient userCenterFeignClient;
+    @PostConstruct
+    public void ShareService1() {
+        log.info("--------->我在启动的时候打印啦<——---------");
+    }
 
     public ShareDTO findById(Integer id) throws Exception {
         Share share = this.shareMapper.selectByPrimaryKey(id);
